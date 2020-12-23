@@ -9,7 +9,7 @@ interface Props {
   }
 
 const Document: React.FC<Props> = ({ document }) => {
-    return <div className="doc">{document.format()}</div>;
+    return <h1 className="doc">{document.format()}</h1>;
   };
 
 export default Document

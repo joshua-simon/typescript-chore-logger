@@ -18,7 +18,7 @@ class ChoreDoc implements Formatter  {
   }
 
   format(){
-    return `${this.name} completed this following chore: ${this.chore} on the following date: ${this.date}`
+    return `${this.name} completed this following chore: ${this.chore} (on date: ${this.date})`
   }
 }
 
