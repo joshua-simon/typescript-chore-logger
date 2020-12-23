@@ -6,7 +6,7 @@ interface Formatter {
   format(): string
 }
 
-class choreDoc {
+class ChoreDoc implements Formatter  {
   name:string
   chore:string
   date:string
@@ -26,6 +26,7 @@ function App() {
   const [name, setName] = useState('')
   const [chore, setChore] = useState('')
   const [date, setDate] = useState('')
+  const [document, setDocument] = useState<ChoreDoc | null>(null);
 
   const handleNameChange = (e:React.FormEvent<HTMLInputElement>) => {
       e.preventDefault()
@@ -41,11 +42,9 @@ function App() {
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>)=> {
     e.preventDefault()
-    let doc:Formatter = new choreDoc(name,chore,date)
-    console.log(doc)
+    let doc = new ChoreDoc(name,chore,date)
+    setDocument(doc)
   }
-
-
 
   return(
     <>
@@ -69,6 +68,7 @@ function App() {
           </form>
       </div>
       <div>
+      {document && <Document document={document} />}
       </div>
       </>
   )

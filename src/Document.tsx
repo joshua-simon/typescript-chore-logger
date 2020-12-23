@@ -1,19 +1,15 @@
 import React from 'react'
 
-interface Props {
-    name: string
-    chore:string
-    date:string
-}
+interface Formatter {
+    format(): string
+  }
 
-const Document: React.FC<Props> = ({name, chore, date}) => {
-    return(
-        <div className = 'doc'>
-            <h1>{name}</h1>
-            <h2>{chore}</h2>
-            <h3>{date}</h3>
-        </div>
-    )
-}
+interface Props {
+    document: Formatter;
+  }
+
+const Document: React.FC<Props> = ({ document }) => {
+    return <div className="doc">{document.format()}</div>;
+  };
 
 export default Document
