@@ -23,10 +23,12 @@ class ChoreDoc implements Formatter  {
 }
 
 function App() {
+
   const [name, setName] = useState('')
   const [chore, setChore] = useState('')
   const [date, setDate] = useState('')
   const [document, setDocument] = useState<ChoreDoc | null>(null);
+  const [choreList, setChoreList] = useState<Array<ChoreDoc>>([])
 
   const handleNameChange = (e:React.FormEvent<HTMLInputElement>) => {
       e.preventDefault()
@@ -40,11 +42,15 @@ function App() {
       e.preventDefault()
       setDate(e.currentTarget.value)
   }
+
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>)=> {
     e.preventDefault()
     let doc = new ChoreDoc(name,chore,date)
     setDocument(doc)
+    setChoreList([...choreList,doc])
   }
+
 
   return(
     <>
@@ -68,10 +74,16 @@ function App() {
           </form>
       </div>
       <div>
-      {document && <Document document={document} />}
+        {
+          choreList.map(chore => {
+            return <Document document = {chore}/>
+          })
+        }
       </div>
       </>
   )
 }
 
 export default App;
+
+// {document && <Document document={document}/>}
