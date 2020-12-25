@@ -1,89 +1,49 @@
 import React, {useState} from 'react';
-import Document from './Document'
 import './styles.css'
 
-interface Formatter {
-  format(): string
-}
 
-class ChoreDoc implements Formatter  {
-  name:string
-  chore:string
-  date:string
+const App: React.FC = () => {
+  
+  type changeFunction = (e:React.FormEvent<HTMLInputElement>) => void
+  type submitFunction = (e: React.FormEvent<HTMLFormElement>) => void
 
-  constructor(n:string,c:string,d:string){
-    this.name = n
-    this.chore = c
-    this.date = d
+
+  const [text,setText] = useState('')
+  const [list,setList] = useState<Array<string>>([])
+
+  
+  const handleChange: changeFunction = (e) => {
+    setText(e.currentTarget.value)
   }
 
-  format(){
-    return `${this.name} completed this following chore: ${this.chore} (on date: ${this.date})`
-  }
-}
-
-function App() {
-
-  const [name, setName] = useState('')
-  const [chore, setChore] = useState('')
-  const [date, setDate] = useState('')
-  const [document, setDocument] = useState<ChoreDoc | null>(null);
-  const [choreList, setChoreList] = useState<Array<ChoreDoc>>([])
-
-  const handleNameChange = (e:React.FormEvent<HTMLInputElement>) => {
+  const handleSubmit: submitFunction = (e) => {
       e.preventDefault()
-      setName(e.currentTarget.value)
-  }
-  const handleChoreChange = (e:React.FormEvent<HTMLInputElement>) => {
-      e.preventDefault()
-      setChore(e.currentTarget.value)
-  }
-  const handleDateChange = (e:React.FormEvent<HTMLInputElement>)=> {
-      e.preventDefault()
-      setDate(e.currentTarget.value)
+      setList([...list,text])
   }
 
+  const deleteHandler = (index:number) => {
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>)=> {
-    e.preventDefault()
-    let doc = new ChoreDoc(name,chore,date)
-    setDocument(doc)
-    setChoreList([...choreList,doc])
   }
 
-
-  return(
-    <>
-      <div>
-          <form className = 'input-list' onSubmit = {handleSubmit} >
-              <label>
-              Enter Name <br></br>
-              <input type = 'text' name = 'name' onChange = {handleNameChange}></input>
-              </label>
-              <label>
-              Chore <br></br>
-              <input type = 'text' name = 'chore' onChange = {handleChoreChange}></input>
-              </label>
-              <label>
-              Date completed <br></br>
-              <input type = 'text' name = 'date' onChange = {handleDateChange}></input>
-              </label>
-              <div>
-              <button type = 'submit' >Submit</button>
-              </div>
-          </form>
-      </div>
-      <div>
-        {
-          choreList.map(chore => {
-            return <Document document = {chore}/>
-          })
-        }
-      </div>
-      </>
+  return (
+    <div>
+      <form onSubmit = {handleSubmit}>
+        <input type = "text" onChange = {handleChange}/>
+        <button type = 'submit'>Submit</button>
+      </form>
+      {
+        list.map((chore,index) => {
+          return(
+          <div key = {index}>
+            <h1>{chore}</h1>
+            <button onClick = {() => deleteHandler(index)}>delete</button>
+          </div>
+          )
+        })
+      }
+    </div>
   )
 }
 
-export default App;
+export default App
 
-// {document && <Document document={document}/>}
