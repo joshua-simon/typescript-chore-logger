@@ -22,7 +22,10 @@ const App: React.FC = () => {
   }
 
   const deleteHandler = (index:number) => {
-
+    const newList = list.filter(chore => {
+      return list.indexOf(chore) !== index
+    })
+    setList(newList)
   }
 
   return (
